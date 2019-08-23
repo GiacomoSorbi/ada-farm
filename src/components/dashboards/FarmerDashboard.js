@@ -1,32 +1,38 @@
-import React, { Component } from 'react';
+import React from 'react'
 
-class FarmerDashboard extends Component {
+export const foodConfig = [
+  { food: 'straw', name: 'bails' },
+  { food: 'milk', name: 'pints' },
+  { food: 'seeds', name: 'bunches' },
+]
 
-  hideUI = () => {
-    this.props.farmer.showUI = false
+const FarmerDashboard = ({ farmer }) => {
+  const hideUI = () => {
+    farmer.showUI = false
   }
 
-  render() {
-    return (
-      <div className="FarmerDashboard">
-        <dl>
-          <dt>Current budget</dt><dd>{this.props.farmer.budget}</dd>
-          {this.props.farmer.myFarm && (<>
-            <dt>Total cows</dt><dd>{this.props.farmer.myFarm.cows.total}</dd>
+  return (
+    <div className='FarmerDashboard'>
+      <dl>
+        <dt>Current budget</dt>
+        <dd>{farmer.budget}</dd>
+        {farmer.myFarm && (
+          <>
+            <dt>Total cows</dt>
+            <dd>{farmer.myFarm.cows.total}</dd>
+          </>
+        )}
+        {farmer.myFarm &&
+          foodConfig.map(item => (
+            <>
+              <dt className='some-food'>Total {item.food}</dt>
+              <dd>{farmer.myFarm[item.food].total} [item.name]</dd>
             </>
-          )}
-          {this.props.farmer.myFarm && (<>
-            <dt>Total straw</dt><dd>{this.props.farmer.myFarm.straw.total} bails</dd>
-            <dt>Total milk</dt><dd>{this.props.farmer.myFarm.milk.total} pints</dd>
-            <dt>Total seeds</dt><dd>{this.props.farmer.myFarm.seeds.total} bunches</dd>
-
-            </>
-          )}
-        </dl>
-        <button onClick={this.hideUI}>Hide UI</button>
-      </div>
-    )
-  }
+          ))}
+      </dl>
+      <button onClick={hideUI}>Hide UI</button>
+    </div>
+  )
 }
 
-export default FarmerDashboard;
+export default FarmerDashboard
